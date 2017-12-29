@@ -1,0 +1,168 @@
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{51B2F1C1-0006-4906-87A1-C2CCBBC987A0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PwaPSiWrapper2</RootNamespace>
+    <AssemblyName>PwaPSiWrapper2</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetOfficeVersion>15.0</TargetOfficeVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{C1CDDADD-2546-481F-9697-4EA41081F2FC};{14822709-B5A1-4724-98CA-57A101D1B079};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SandboxedSolution>False</SandboxedSolution>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Project.Schema, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.Office.Project.Schema\v4.0_15.0.0.0__71e9bce111e9429c\Microsoft.Office.Project.Schema.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Project.Server, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.Office.Project.Server\v4.0_15.0.0.0__71e9bce111e9429c\Microsoft.Office.Project.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Project.Server.Administration, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.Office.Project.Server.Administration\v4.0_15.0.0.0__71e9bce111e9429c\Microsoft.Office.Project.Server.Administration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Project.Server.Communications.Internal, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.Office.Project.Server.Communications.Internal\v4.0_15.0.0.0__71e9bce111e9429c\Microsoft.Office.Project.Server.Communications.Internal.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Project.Server.Library, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.Office.Project.Server.Library\v4.0_15.0.0.0__71e9bce111e9429c\Microsoft.Office.Project.Server.Library.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Project.Server.PWA, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.Office.Project.Server.PWA\v4.0_15.0.0.0__71e9bce111e9429c\Microsoft.Office.Project.Server.PWA.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\code\adapter\adapter\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.SharePoint" />
+    <Reference Include="Microsoft.SharePoint.Client.ServerRuntime" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Layouts\Configuration\ConfigurationUtility.cs" />
+    <Compile Include="Layouts\PwaPSiWrapper2\PwaAdapter.aspx.cs">
+      <DependentUpon>PwaAdapter.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Layouts\PwaPSiWrapper2\PwaAdapter.aspx.designer.cs">
+      <DependentUpon>PwaAdapter.aspx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserCode\Misc\PwaCommandArgs.cs" />
+    <Compile Include="UserCode\Misc\PwaCommandContentType.cs" />
+    <Compile Include="UserCode\Misc\PwaCommandInputParser.cs" />
+    <Compile Include="UserCode\Misc\tests.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Controllers\ResourcePlanController.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Controllers\ResourcePlanRepository.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\IPwaInput.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\IPwaOutput.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\JSON\Item.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\PwaGetProjectsCheckedoutInput.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\PwaGetProjectsForEditInput.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\PwaGetProjectsStalePublishInput.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\PwaGetProjectsUidsInput.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\PwaGetResourcesInput.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\PwaProjectInput.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\PwaResourcePlanInput.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\PwaUpdateProjectsCustomFieldsInput.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\Pwa\CustomField.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\Pwa\Intervals.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\Pwa\Project.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\Pwa\Resource.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\Pwa\ResPlan.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\Pwa\UpdateProject.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\Pwa\UpdateResource.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\Pwa\UpdateResPlan.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\IPwaCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\IPwaCommandFactory.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\IResult.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaAddResourcePlanCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaCommandParser.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaDeleteCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaDeleteResourcePlanCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaGetCheckedoutProjectsCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaGetProjectsForEditCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaGetProjectsStalePublishCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaGetProjectUidsCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaGetResourcePlansCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaGetResourcesCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaNotFoundCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaPublishCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaPublishResourcePlanCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaUpdateProjectsCustomFieldsCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaUpdateResourcePlanCommand.cs" />
+    <Compile Include="UserCode\QueueHelper.cs" />
+    <Compile Include="UserCode\Utility\ExceptionUtility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="key.snk" />
+    <None Include="Layouts\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{6f482216-3a17-45ad-afd9-0e34306285ee}</SharePointProjectItemId>
+    </None>
+    <None Include="Package\Package.package">
+      <PackageId>{ea750976-0da6-4f71-9b11-12a85683a786}</PackageId>
+    </None>
+    <None Include="Package\Package.Template.xml">
+      <DependentUpon>Package.package</DependentUpon>
+    </None>
+    <None Include="UserCode\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{5d517c1e-6ce8-4249-b520-0d43c826aa35}</SharePointProjectItemId>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Features\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Layouts\Configuration\Configuration.xml" />
+    <Content Include="Layouts\PwaPSiWrapper2\PwaAdapter.aspx" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\SharePointTools\Microsoft.VisualStudio.SharePoint.targets" Condition="'$(VSToolsPath)' != ''" />
+</Project>

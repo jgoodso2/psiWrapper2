@@ -1,0 +1,1 @@
+bin\Debug\PwaPSiWrapper2.wsp
