@@ -74,6 +74,7 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
 
         public IPwaCommand MakePwaCommand(PJContext pj, NameValueCollection pwaInput)
         {
+            //inconsequential change
             return new PwaGetResourcePlansCommand() { _pj = pj, PwaInput = (PwaResourcePlanInput)new PwaResourcePlanInput(pwaInput).ParseInput() };
         }
 
