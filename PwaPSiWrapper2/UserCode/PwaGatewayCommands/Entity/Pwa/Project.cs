@@ -16,6 +16,8 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands.Entity.Pwa
         public bool readOnly { get; set; }
         public bool stalePublish { get; set; }
         public string readOnlyReason { get; set; }
+        public string startDate { get; set; }
+        public string finishDate { get; set; }
         public string this[string intervalName]
         {
             get

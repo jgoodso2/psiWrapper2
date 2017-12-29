@@ -350,6 +350,9 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
                 //sDate = financialPeriods[0].StartDate;
                 //eDate = financialPeriods[financialPeriods.Count - 1].EndDate;
 
+                var projectDs = PJPSIContext.ProjectWebService.ReadProject(projectUiid, DataStoreEnum.PublishedStore);
+                var startDate = projectDs.Project[0].IsPROJ_INFO_START_DATENull() ? DateTime.MinValue: projectDs.Project[0].PROJ_INFO_START_DATE;
+                var finishDate = projectDs.Project[0].IsPROJ_INFO_FINISH_DATENull() ? DateTime.MaxValue : projectDs.Project[0].PROJ_INFO_FINISH_DATE;
                 PJSchema.ResourcePlanDataSet ds = PJPSIContext.ResourcePlanWebService.ReadResourcePlan("",
                     projectUiid
                     , sDate, eDate, intTimeScale, workScale.ToUpper() == "FTE", false);
@@ -379,7 +382,7 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
                     ResPlan plan = new ResPlan();
                     plan.resource = new Resource() { resUid = Guid.Empty.ToString(), resName = "" };
 
-                    plan.projects = new Project[1] { new Project() { projUid = projectUiid.ToString(), projName = projectName, readOnly = true } };
+                    plan.projects = new Project[1] { new Project() { projUid = projectUiid.ToString(), projName = projectName, readOnly = true,startDate=startDate.ToShortDateString(),finishDate=finishDate.ToShortDateString() } };
                     //plan.projects[0].readOnly = true;
                     //plan.projects[0].readOnlyReason = "Unable to retrieve data. Possible reason:Resource Plan requires publishing";
                     plan.projects[0].stalePublish = true;
@@ -392,7 +395,7 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
                     ResPlan plan = new ResPlan();
                     plan.resource = new Resource() { resUid = ds.PlanResources[i].RES_UID.ToString(), resName = ds.PlanResources[i].RES_NAME };
 
-                    plan.projects = new Project[1] { new Project() { projUid = projectUiid.ToString(), projName = projectName, readOnly = false } };
+                    plan.projects = new Project[1] { new Project() { projUid = projectUiid.ToString(), projName = projectName, readOnly = false, startDate = startDate.ToShortDateString(), finishDate = finishDate.ToShortDateString() } };
                     plan.projects[0].intervals = new Intervals[ds.Dates.Count];
                     //if (ds.PlanResources[0]["IsCheckedOut"] != DBNull.Value && ds.PlanResources[0]["IsCheckedOut"].ToString() == "1")
                     //{
