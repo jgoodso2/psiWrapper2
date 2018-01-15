@@ -16,6 +16,9 @@ using PSPJLib = Microsoft.Office.Project.PWA;
 using Project = PwaPSIWrapper.UserCode.PwaGatewayCommands.Entity.Pwa.Project;
 using Resource = PwaPSIWrapper.UserCode.PwaGatewayCommands.Entity.Pwa.Resource;
 using PwaPSIWrapper.UserCode.Utility;
+using Microsoft.Office.Project.PWA;
+using PwaPSiWrapper2.UserCode.PwaGatewayCommands.Entity.Pwa;
+using System.Data;
 
 namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
 {
@@ -351,7 +354,7 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
                 //eDate = financialPeriods[financialPeriods.Count - 1].EndDate;
 
                 var projectDs = PJPSIContext.ProjectWebService.ReadProject(projectUiid, DataStoreEnum.PublishedStore);
-                var startDate = projectDs.Project[0].IsPROJ_INFO_START_DATENull() ? DateTime.MinValue: projectDs.Project[0].PROJ_INFO_START_DATE;
+                var startDate = projectDs.Project[0].IsPROJ_INFO_START_DATENull() ? DateTime.MinValue : projectDs.Project[0].PROJ_INFO_START_DATE;
                 var finishDate = projectDs.Project[0].IsPROJ_INFO_FINISH_DATENull() ? DateTime.MaxValue : projectDs.Project[0].PROJ_INFO_FINISH_DATE;
                 PJSchema.ResourcePlanDataSet ds = PJPSIContext.ResourcePlanWebService.ReadResourcePlan("",
                     projectUiid
@@ -382,7 +385,7 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
                     ResPlan plan = new ResPlan();
                     plan.resource = new Resource() { resUid = Guid.Empty.ToString(), resName = "" };
 
-                    plan.projects = new Project[1] { new Project() { projUid = projectUiid.ToString(), projName = projectName, readOnly = true,startDate=startDate.ToShortDateString(),finishDate=finishDate.ToShortDateString() } };
+                    plan.projects = new Project[1] { new Project() { projUid = projectUiid.ToString(), projName = projectName, readOnly = true, startDate = startDate.ToShortDateString(), finishDate = finishDate.ToShortDateString() } };
                     //plan.projects[0].readOnly = true;
                     //plan.projects[0].readOnlyReason = "Unable to retrieve data. Possible reason:Resource Plan requires publishing";
                     plan.projects[0].stalePublish = true;
@@ -572,6 +575,74 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
 
         }
 
+
+        public Dictionary<string, TimesheetCapacityData> ReadTimesheetData(Guid resUid, DateTime start, DateTime end, string workscale)
+        {
+            List<Guid> periodUids = new List<Guid>();
+
+            Dictionary<string, TimesheetCapacityData> projectTimesheetData = new Dictionary<string, TimesheetCapacityData>();
+
+            var data = PJPSIContext.TimeSheetWebService.ReadTimesheetList(resUid, start, end, 8);
+            DateTime minStartDate =  new DateTime[] { data.Timesheets.AsEnumerable().Select(t => t.Field<DateTime>("WPRD_START_DATE")).Min(), start }.Min();
+            DateTime maxEndDate = new DateTime[] { data.Timesheets.AsEnumerable().Select(t => t.Field<DateTime>("WPRD_FINISH_DATE")).Max(), end }.Max();
+           
+            var capacityData = PJPSIContext.ResourceWebService.ReadResourceAvailability(new Guid[] { resUid }, minStartDate, maxEndDate, 1, false);
+            foreach (DataRow row in capacityData.Tables[0].Rows)
+            {
+                var intervalName = row.Field<string>("IntervalName");
+                var date = row.Field<DateTime>("StartDate");
+                var capacity = Convert.ToDecimal(capacityData.Tables[1].Rows[0][intervalName].ToString()) / 600;
+                projectTimesheetData.Add(date.ToString("yyyy-MM-dd"), new TimesheetCapacityData() { Capacity = capacity,TimesheetData=new Dictionary<Guid, decimal>() });
+            }
+
+            foreach (Microsoft.Office.Project.Server.Schema.TimesheetListDataSet.TimesheetsRow dataRow in data.Timesheets)
+            {
+                var periodUid = dataRow.WPRD_UID;
+                var timesheetData = PJPSIContext.TimeSheetWebService.ReadTimesheetByPeriod(resUid, periodUid, Microsoft.Office.Project.Server.Library.TimesheetEnum.Navigation.Current);
+                // this is TS_LINE_CLASS_UID for standard line classification type = fcdb0e4e-b9c7-4a39-804f-fa44796f71a0
+                //filter project lines that have standard line classification
+                //timesheetData.Lines[0].PROJ_UID
+                var lines = timesheetData.Lines.AsEnumerable().Where(r => r.Field<Guid>("TS_LINE_CLASS_UID") == new Guid("fcdb0e4e-b9c7-4a39-804f-fa44796f71a0"));
+                //group by project since there could be more than one line for a single project
+                var projectLines = lines.GroupBy(t => t.Field<Guid>("PROJ_UID"));
+                foreach (IGrouping<Guid, DataRow> projectLine in projectLines)
+                {
+                    var actualsData = new Dictionary<string, TimesheetRawData>();
+                    var linesForProject = projectLine.ToList();
+                    //timesheetData.Actuals[0].TS_ACT_VALUE;
+                    //timesheetData.Actuals[0].TS_ACT_START_DATE
+                    //PwaPSIWrapper.UserCode.PwaGatewayCommands.Entity.Pwa.Project project = new PwaPSIWrapper.UserCode.PwaGatewayCommands.Entity.Pwa.Project() { projUid = projectLine.Key.ToString() }; 
+                    var actualsForLines = timesheetData.Actuals.AsEnumerable().Where(a => linesForProject.Select(l => l.Field<Guid>("TS_LINE_UID")).Contains(a.Field<Guid>("TS_LINE_UID")));
+                    //group by actuals on start date so that we can sum up actuals when there are more than one tasks in a same project
+                    var actualsForLinesGroup = actualsForLines.GroupBy(g => g.Field<DateTime>("TS_ACT_START_DATE"));
+                    foreach (var actual in actualsForLinesGroup)
+                    {
+
+                        try
+                        {
+
+                            var date = actual.Key;
+                            var timesheetCapacityData = projectTimesheetData[date.ToString("yyyy-MM-dd")];
+                            timesheetCapacityData.TimesheetData.Add(projectLine.Key, actual.ToList().Select(r => r.Field<decimal>("TS_ACT_VALUE")).Sum() / 60000);
+                        }
+                        catch(Exception ex)
+                        {
+
+                        }
+
+                    }
+
+                    
+
+                }
+
+            }
+
+            
+            return projectTimesheetData;
+
+
+        }
         private void AddCheckoutFlags(Guid projectUiid, PJSchema.ResourcePlanDataSet dsCopy)
         {
             var checkedOutInfo = GetCheckedOutInfo(projectUiid);
@@ -625,8 +696,6 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
             }
             return true;
         }
-
-
 
         public UpdateResult UpdateResourcePlan(PJSchema.ResourcePlanDataSet dataSet, bool isNew, string projUid, string timescale, string workScale)
         {
@@ -694,7 +763,7 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
                 var result = new UpdateResult() { project = new Project() { projUid = projUid } };
                 var sessionGuid = Guid.NewGuid();
                 var jobGuid = Guid.NewGuid();
-                
+
                 PJPSIContext.ProjectWebService.CheckOutProject(new Guid(projUid), sessionGuid, "");
                 PJPSIContext.ProjectWebService.QueuePublish(jobGuid, new Guid(projUid), true, null);
                 var res = QueueHelper.WaitForQueueJobCompletion(jobGuid,
@@ -737,7 +806,7 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
             }
         }
 
-        private UpdateResult CreateResourcePlan(PJSchema.ResourcePlanDataSet dataSet, bool isFTE,Guid CreateAndCheckinJobGuid)
+        private UpdateResult CreateResourcePlan(PJSchema.ResourcePlanDataSet dataSet, bool isFTE, Guid CreateAndCheckinJobGuid)
         {
             var result = new UpdateResult() { project = new Project() { projUid = dataSet.PlanResources[0].PROJ_UID.ToString() } };
             //var jobGuid = Guid.NewGuid();

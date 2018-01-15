@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 using PwaPSIWrapper.UserCode.PwaGatewayCommands.Entity.Pwa;
 using System.Data;
 using PwaPSIWrapper.UserCode.Utility;
+using PwaPSiWrapper2.UserCode.PwaGatewayCommands.Entity.Pwa;
 
 namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
 {
@@ -100,6 +101,12 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
             }
 
             return result;
+        }
+
+        internal Dictionary<string, TimesheetCapacityData> GetTimesheet(string resuid,string workscale)
+        {
+            ResourcePlanRepository repository = new ResourcePlanRepository() { PJPSIContext = PJContext };
+            return repository.ReadTimesheetData(new Guid(resuid), DateTime.Now.AddYears(-2), DateTime.Now,workscale);
         }
 
         private PJSchema.ResourcePlanDataSet BuildDataSetForDay(PJSchema.ResourcePlanDataSet dataSet, DateTime startDate, DateTime endDate, string ruid)

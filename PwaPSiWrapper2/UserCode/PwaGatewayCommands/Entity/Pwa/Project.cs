@@ -13,6 +13,7 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands.Entity.Pwa
 
         public bool selected { get; set; }
         public Intervals[] intervals { get; set; }
+        public Intervals[] timesheetData { get; set; }
         public bool readOnly { get; set; }
         public bool stalePublish { get; set; }
         public string readOnlyReason { get; set; }

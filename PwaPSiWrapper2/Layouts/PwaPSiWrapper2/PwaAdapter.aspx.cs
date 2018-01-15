@@ -10,6 +10,9 @@ using System.Linq;
 using System.Web.Script.Serialization;
 using PwaPSIWrapper.UserCode.PwaGatewayCommands;
 using PwaPSIWrapper;
+using System.Diagnostics;
+using System.Data;
+using PwaPSiWrapper2.UserCode.PwaGatewayCommands;
 
 namespace PwaPSiWrapper2.Layouts.PwaPSiWrapper2
 {
@@ -33,7 +36,17 @@ namespace PwaPSiWrapper2.Layouts.PwaPSiWrapper2
                 Response.SuppressContent = true;  // Gets or sets a value indicating whether to send HTTP content to the client.
                 HttpContext.Current.ApplicationInstance.CompleteRequest();
             }
+
+            //data.Tables[1].Rows[0].ItemArray[7]  = capacity   // row 0 is always capacity
+            var data = this.PjContext.PSI.ResourceWebService.ReadResourceAvailability(new Guid[] { new Guid("fb31d63d-967c-e711-80cc-00155d005a03") }, new DateTime(2017,12,30), new DateTime(2018, 1, 12), 1, false);
+
+            //  Convert Hours to FTE =>  ( sum of  timesheet hrs ) / (sum of capacity)
+            //  Convert Hours to Days = (( sum of timesheet hrs ) / ( sum of capacity ) ) * 8 
+            var dd = data.GetXml(); 
+           
         }
+
+        
 
         private IEnumerable<IPwaCommandFactory> CreatePwaCommands()
         {
@@ -51,6 +64,7 @@ namespace PwaPSiWrapper2.Layouts.PwaPSiWrapper2
             IPwaCommandFactory addResourcePlanCommand = new PwaAddResourcePlanCommand();
             IPwaCommandFactory deleteResourcePlanCommand = new PwaDeleteResourcePlanCommand();
             IPwaCommandFactory getResourcesCommand = new PwaGetResourcesCommand();
+            IPwaCommandFactory getTimesheetsCommand = new PwaGetTimsheetsCommand();
             List<IPwaCommandFactory> commands = new List<IPwaCommandFactory>();
             commands.Add(PublishCommand);
             commands.Add(NotFoundCommand);
@@ -65,6 +79,7 @@ namespace PwaPSiWrapper2.Layouts.PwaPSiWrapper2
             commands.Add(addResourcePlanCommand);
             commands.Add(deleteResourcePlanCommand);
             commands.Add(getResourcesCommand);
+            commands.Add(getTimesheetsCommand);
             return commands;
 
         }
