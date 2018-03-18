@@ -772,8 +772,7 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
                 PJPSIContext.ProjectWebService.CheckOutProject(new Guid(projUid), sessionGuid, "");
                 PJPSIContext.ProjectWebService.QueuePublish(jobGuid, new Guid(projUid), true, null);
                 var res = QueueHelper.WaitForQueueJobCompletion(jobGuid,
-                       (int)PSLib.QueueConstants.QueueMsgType.ResourcePlanSave, PJPSIContext);
-
+                       (int)PSLib.QueueConstants.QueueMsgType.ProjectPublish, PJPSIContext);
                 if (!res)
                 {
                     result.success = false;
@@ -781,6 +780,17 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
                     result.error = "An unexpected error occured in Publishing project for the resource plan";
                     return result;
                 }
+                PJPSIContext.ProjectWebService.QueueCheckInProject(jobGuid, new Guid(projUid), true, sessionGuid, "RP2");
+                res = QueueHelper.WaitForQueueJobCompletion(jobGuid,
+                       (int)PSLib.QueueConstants.QueueMsgType.ProjectCheckIn, PJPSIContext);
+                if (!res)
+                {
+                    result.success = false;
+                    result.debugError = "Wait for Queue failed for Publish Checkin(Stale Publish)";
+                    result.error = "An unexpected error occured in CHecking in the project for the resource plan";
+                    return result;
+                }
+
                 result.success = true;
                 return result;
             }

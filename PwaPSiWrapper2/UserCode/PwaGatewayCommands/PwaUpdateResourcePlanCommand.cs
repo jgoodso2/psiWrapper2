@@ -68,6 +68,7 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
             catch (Exception ex)
             {
                 //OutputResult = new UpdateResult();
+
                 
             }
         }
