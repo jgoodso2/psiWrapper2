@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -53,7 +54,7 @@ namespace PwaPSiWrapper2.UserCode.PwaGatewayCommands
             {
                 var controller = new ResourcePlanController();
                 controller.PJContext = _pj.PSI;
-                OutputResult = GetTimesheets(_pj.PSI, PwaInput.ResUID,PwaInput.Workscale);
+                OutputResult = GetTimesheets(_pj.PSI, PwaInput.ResUID,PwaInput.From,PwaInput.To);
             }
             catch (Exception ex)
             {
@@ -76,12 +77,12 @@ namespace PwaPSiWrapper2.UserCode.PwaGatewayCommands
             Output = Newtonsoft.Json.JsonConvert.SerializeObject(OutputResult);
         }
 
-        private Dictionary<string, TimesheetCapacityData> GetTimesheets(Microsoft.Office.Project.PWA.PSI psi, string resuid,string workscale)
+        private Dictionary<string, TimesheetCapacityData> GetTimesheets(Microsoft.Office.Project.PWA.PSI psi, string resuid,DateTime fromDate,DateTime toDate)
         {
             try
             {
                 var controller = new ResourcePlanController() { PJContext = psi };
-                return controller.GetTimesheet(resuid, workscale);
+                return controller.GetTimesheet(resuid,fromDate,toDate);
             }
             catch (Exception ex)
             {

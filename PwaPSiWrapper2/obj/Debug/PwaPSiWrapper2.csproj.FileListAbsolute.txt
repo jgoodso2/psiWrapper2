@@ -1,4 +1,3 @@
-c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrapper2\obj\Debug\PwaPSiWrapper2.csprojResolveAssemblyReference.cache
 c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrapper2\bin\Debug\PwaPSiWrapper2.dll
 c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrapper2\bin\Debug\PwaPSiWrapper2.pdb
 c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrapper2\bin\Debug\Microsoft.Office.Project.Schema.dll
@@ -44,7 +43,6 @@ c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrap
 c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrapper2\bin\Debug\Microsoft.Office.DocumentManagement.dll
 c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrapper2\bin\Debug\Microsoft.Office.Policy.dll
 c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrapper2\bin\Debug\Microsoft.Office.Excel.Server.Udf.dll
-c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrapper2\bin\Debug\Newtonsoft.Json.xml
 c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrapper2\bin\Debug\Microsoft.SharePoint.xml
 c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrapper2\bin\Debug\Microsoft.Data.Services.xml
 c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrapper2\bin\Debug\Microsoft.Data.Services.Client.xml

@@ -20,12 +20,14 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
         }
 
         public string ResUID { get; private set; }
-        public string Workscale { get; private set; }
+        public DateTime From { get; private set; }
+        public DateTime To { get; private set; }
 
         public IPwaCommandInput ParseInput()
         {
             this.ResUID = Input["resuid"];
-            this.Workscale = Input["workScale"];
+            this.From = Convert.ToDateTime(Input["start"]);
+            this.To = Convert.ToDateTime(Input["end"]);
             return this;
         }
     }

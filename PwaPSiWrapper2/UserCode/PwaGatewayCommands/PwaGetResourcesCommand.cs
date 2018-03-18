@@ -14,7 +14,7 @@ using System.Configuration;
 using PwaPSIWrapper.Configuration;
 using Newtonsoft.Json;
 using PwaPSIWrapper.UserCode.PwaGatewayCommands.Entity.JSON;
-    using Resource = PwaPSIWrapper.UserCode.PwaGatewayCommands.Entity.Pwa.Resource;
+using Resource = PwaPSIWrapper.UserCode.PwaGatewayCommands.Entity.Pwa.Resource;
 using CustomField = PwaPSIWrapper.UserCode.PwaGatewayCommands.Entity.Pwa.CustomField;
 using PwaPSIWrapper.UserCode.PwaGatewayCommands;
 
@@ -40,15 +40,27 @@ namespace PwaPSIWrapper
             get; set;
         }
 
-        public Resource[] OutputDataSet { get; set; }
+        public Object OutputDataSet { get; set; }
         public PwaResourcePlanInput PwaInput;
 
         public void Execute()
         {
-            //OutputDataSet = new DataTable();
-            var projects = _pj.PSI.ProjectWebService.ReadProjectStatus(Guid.Empty, PSLib.DataStoreEnum.WorkingStore, string.Empty, (int)PSLib.Project.ProjectType.Project);
-            string[] columnsCopy = new string[0];
-            OutputDataSet = GetResourcesCustomFields();
+            var result = new UpdateResult();
+            try
+            {
+                //OutputDataSet = new DataTable();
+                var projects = _pj.PSI.ProjectWebService.ReadProjectStatus(Guid.Empty, PSLib.DataStoreEnum.WorkingStore, string.Empty, (int)PSLib.Project.ProjectType.Project);
+                string[] columnsCopy = new string[0];
+                OutputDataSet = GetResourcesCustomFields();
+            }
+            catch (Exception ex)
+            {
+                result = new UpdateResult();
+                result.success = false;
+                result.debugError = ex.Message;
+                result.error = ex.Message;
+                OutputDataSet = result;
+            }
 
 
         }
@@ -87,9 +99,9 @@ namespace PwaPSIWrapper
             return resources.ToArray();
 
         }
-        public IPwaCommand MakePwaCommand(PJContext pj, NameValueCollection  args)
+        public IPwaCommand MakePwaCommand(PJContext pj, NameValueCollection args)
         {
-            return new PwaGetResourcesCommand() { _pj = pj, PwaInput = (PwaResourcePlanInput) new PwaResourcePlanInput(args).ParseInput() };
+            return new PwaGetResourcesCommand() { _pj = pj, PwaInput = (PwaResourcePlanInput)new PwaResourcePlanInput(args).ParseInput() };
         }
 
         public void ProcessResult(HttpContext context)

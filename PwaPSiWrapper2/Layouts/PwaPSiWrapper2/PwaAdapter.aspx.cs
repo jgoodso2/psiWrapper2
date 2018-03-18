@@ -38,11 +38,11 @@ namespace PwaPSiWrapper2.Layouts.PwaPSiWrapper2
             }
 
             //data.Tables[1].Rows[0].ItemArray[7]  = capacity   // row 0 is always capacity
-            var data = this.PjContext.PSI.ResourceWebService.ReadResourceAvailability(new Guid[] { new Guid("fb31d63d-967c-e711-80cc-00155d005a03") }, new DateTime(2017,12,30), new DateTime(2018, 1, 12), 1, false);
+            //var data = this.PjContext.PSI.ResourceWebService.ReadResourceAvailability(new Guid[] { new Guid("fb31d63d-967c-e711-80cc-00155d005a03") }, new DateTime(2017,12,30), new DateTime(2018, 1, 12), 1, false);
 
             //  Convert Hours to FTE =>  ( sum of  timesheet hrs ) / (sum of capacity)
             //  Convert Hours to Days = (( sum of timesheet hrs ) / ( sum of capacity ) ) * 8 
-            var dd = data.GetXml(); 
+           // var dd = data.GetXml(); 
            
         }
 

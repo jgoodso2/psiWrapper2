@@ -103,10 +103,10 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
             return result;
         }
 
-        internal Dictionary<string, TimesheetCapacityData> GetTimesheet(string resuid,string workscale)
+        internal Dictionary<string, TimesheetCapacityData> GetTimesheet(string resuid,DateTime fromDate,DateTime toDate)
         {
             ResourcePlanRepository repository = new ResourcePlanRepository() { PJPSIContext = PJContext };
-            return repository.ReadTimesheetData(new Guid(resuid), DateTime.Now.AddYears(-2), DateTime.Now,workscale);
+            return repository.ReadTimesheetData(new Guid(resuid), fromDate, toDate);
         }
 
         private PJSchema.ResourcePlanDataSet BuildDataSetForDay(PJSchema.ResourcePlanDataSet dataSet, DateTime startDate, DateTime endDate, string ruid)

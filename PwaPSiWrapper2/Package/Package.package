@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="1.0.0.0" Id="ea750976-0da6-4f71-9b11-12a85683a786" solutionId="ea750976-0da6-4f71-9b11-12a85683a786" resetWebServer="false" sharePointProductVersion="15.0" name="PwaPSiWrapper2" xmlns="http://schemas.microsoft.com/VisualStudio/2008/SharePointTools/PackageModel">
+  <assemblies>
+    <customAssembly location="Newtonsoft.Json.dll" deploymentTarget="WebApplication" sourcePath="dll\Newtonsoft.Json.dll" />
+  </assemblies>
   <projectItems>
     <projectItemReference itemId="6f482216-3a17-45ad-afd9-0e34306285ee" />
     <projectItemReference itemId="5d517c1e-6ce8-4249-b520-0d43c826aa35" />

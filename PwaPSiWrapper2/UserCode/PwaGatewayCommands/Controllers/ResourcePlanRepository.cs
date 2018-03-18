@@ -19,6 +19,7 @@ using PwaPSIWrapper.UserCode.Utility;
 using Microsoft.Office.Project.PWA;
 using PwaPSiWrapper2.UserCode.PwaGatewayCommands.Entity.Pwa;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
 {
@@ -576,7 +577,7 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
         }
 
 
-        public Dictionary<string, TimesheetCapacityData> ReadTimesheetData(Guid resUid, DateTime start, DateTime end, string workscale)
+        public Dictionary<string, TimesheetCapacityData> ReadTimesheetData(Guid resUid, DateTime start, DateTime end)
         {
             List<Guid> periodUids = new List<Guid>();
 
@@ -595,14 +596,17 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
                 projectTimesheetData.Add(date.ToString("yyyy-MM-dd"), new TimesheetCapacityData() { Capacity = capacity,TimesheetData=new Dictionary<Guid, decimal>() });
             }
 
-            foreach (Microsoft.Office.Project.Server.Schema.TimesheetListDataSet.TimesheetsRow dataRow in data.Timesheets)
+            Parallel.ForEach(data.Timesheets.Rows.Cast<Microsoft.Office.Project.Server.Schema.TimesheetListDataSet.TimesheetsRow>(), ((dataRow, ps, index) =>
             {
+                //    foreach (Microsoft.Office.Project.Server.Schema.TimesheetListDataSet.TimesheetsRow dataRow in data.Timesheets)
+                //{
                 var periodUid = dataRow.WPRD_UID;
                 var timesheetData = PJPSIContext.TimeSheetWebService.ReadTimesheetByPeriod(resUid, periodUid, Microsoft.Office.Project.Server.Library.TimesheetEnum.Navigation.Current);
                 // this is TS_LINE_CLASS_UID for standard line classification type = fcdb0e4e-b9c7-4a39-804f-fa44796f71a0
                 //filter project lines that have standard line classification
                 //timesheetData.Lines[0].PROJ_UID
-                var lines = timesheetData.Lines.AsEnumerable().Where(r => r.Field<Guid>("TS_LINE_CLASS_UID") == new Guid("fcdb0e4e-b9c7-4a39-804f-fa44796f71a0"));
+                //var lines = timesheetData.Lines.AsEnumerable().Where(r => r.Field<Guid>("TS_LINE_CLASS_UID") == new Guid("fcdb0e4e-b9c7-4a39-804f-fa44796f71a0"));
+                var lines = timesheetData.Lines.AsEnumerable().ToList();
                 //group by project since there could be more than one line for a single project
                 var projectLines = lines.GroupBy(t => t.Field<Guid>("PROJ_UID"));
                 foreach (IGrouping<Guid, DataRow> projectLine in projectLines)
@@ -625,18 +629,19 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
                             var timesheetCapacityData = projectTimesheetData[date.ToString("yyyy-MM-dd")];
                             timesheetCapacityData.TimesheetData.Add(projectLine.Key, actual.ToList().Select(r => r.Field<decimal>("TS_ACT_VALUE")).Sum() / 60000);
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
 
                         }
 
                     }
 
-                    
+
 
                 }
 
             }
+            ));
 
             
             return projectTimesheetData;

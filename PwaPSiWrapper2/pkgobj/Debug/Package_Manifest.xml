@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Solution xmlns="http://schemas.microsoft.com/sharepoint/" SolutionId="ea750976-0da6-4f71-9b11-12a85683a786" SharePointProductVersion="15.0">
   <Assemblies>
+    <Assembly Location="Newtonsoft.Json.dll" DeploymentTarget="WebApplication" />
     <Assembly Location="PwaPSiWrapper2.dll" DeploymentTarget="GlobalAssemblyCache" />
   </Assemblies>
   <TemplateFiles>
