@@ -65,6 +65,9 @@ namespace PwaPSiWrapper2.Layouts.PwaPSiWrapper2
             IPwaCommandFactory deleteResourcePlanCommand = new PwaDeleteResourcePlanCommand();
             IPwaCommandFactory getResourcesCommand = new PwaGetResourcesCommand();
             IPwaCommandFactory getTimesheetsCommand = new PwaGetTimsheetsCommand();
+            IPwaCommandFactory geProjectPlansCommand = new PwaGetProjectPlansCommand();
+            IPwaCommandFactory updateProjectPlanCommand = new PwaUpdateProjectPlanCommand();
+            IPwaCommandFactory addresourcesCommand = new PwaAddResourcesToPlanCommand();
             List<IPwaCommandFactory> commands = new List<IPwaCommandFactory>();
             commands.Add(PublishCommand);
             commands.Add(NotFoundCommand);
@@ -80,6 +83,9 @@ namespace PwaPSiWrapper2.Layouts.PwaPSiWrapper2
             commands.Add(deleteResourcePlanCommand);
             commands.Add(getResourcesCommand);
             commands.Add(getTimesheetsCommand);
+            commands.Add(geProjectPlansCommand);
+            commands.Add(updateProjectPlanCommand);
+            commands.Add(addresourcesCommand);
             return commands;
 
         }

@@ -111,3 +111,4 @@ c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrap
 c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrapper2\bin\Debug\zh-Hant\System.Spatial.resources.dll
 c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrapper2\obj\Debug\PwaPSiWrapper2.dll
 c:\users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrapper2\obj\Debug\PwaPSiWrapper2.pdb
+C:\Users\nishant\documents\visual studio 2017\Projects\PwaPSiWrapper2\PwaPSiWrapper2\obj\Debug\PwaPSiWrapper2.csprojResolveAssemblyReference.cache

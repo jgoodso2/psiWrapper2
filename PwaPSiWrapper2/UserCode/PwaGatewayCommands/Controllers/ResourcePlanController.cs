@@ -103,6 +103,13 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
             return result;
         }
 
+        internal ProjectPlan GetProjectPlan(string puid, string projName, DateTime startDate, DateTime endDate, string timeScale, string workscale, bool isPSIVersion, string isCheckedOut, string checkOutBY)
+        {
+            ResourcePlanRepository repository = new ResourcePlanRepository();
+            repository.PJPSIContext = PJContext;
+            return repository.GetProjectPlan(startDate, endDate, timeScale, workscale, new Guid(puid), projName, false, isCheckedOut, checkOutBY);
+        }
+
         internal Dictionary<string, TimesheetCapacityData> GetTimesheet(string resuid,DateTime fromDate,DateTime toDate)
         {
             ResourcePlanRepository repository = new ResourcePlanRepository() { PJPSIContext = PJContext };
@@ -214,6 +221,13 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
             ResourcePlanRepository repository = new ResourcePlanRepository();
             repository.PJPSIContext = PJContext;
             return repository.AddResourcePlan(projectUID, projectName, resourceUID, timeScale, workScale, startDate, endDate);
+        }
+
+        internal UpdateResult AddResourcePlan(string projectUID, string projectName, string[] resourceUIDs, string timeScale, string workScale, string startDate, string endDate)
+        {
+            ResourcePlanRepository repository = new ResourcePlanRepository();
+            repository.PJPSIContext = PJContext;
+            return repository.AddResourcePlan(projectUID, projectName, resourceUIDs, timeScale, workScale, startDate, endDate);
         }
 
         internal UpdateResult DeleteResourcePlan(UpdateResPlan resPlan, string timeScale, string workScale, string startDate, string endDate)

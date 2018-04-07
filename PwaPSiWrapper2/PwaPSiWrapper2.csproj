@@ -107,11 +107,14 @@
     <Compile Include="UserCode\PwaGatewayCommands\Entity\PwaGetResourcesInput.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\Entity\PwaProjectInput.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\Entity\PwaGetTimesheetsInput.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\PwaProjectPlanInput.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\PwaAddResourcesInput.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\Entity\PwaResourcePlanInput.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\Entity\PwaUpdateProjectsCustomFieldsInput.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\Entity\Pwa\CustomField.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\Entity\Pwa\Intervals.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\Entity\Pwa\Project.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\Entity\Pwa\ProjectPlan.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\Entity\Pwa\Resource.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\Entity\Pwa\ResPlan.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\Entity\Pwa\TimesheetCapacityData.cs" />
@@ -122,6 +125,7 @@
     <Compile Include="UserCode\PwaGatewayCommands\IPwaCommand.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\IPwaCommandFactory.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\IResult.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaAddResourcesToPlanCommand.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaAddResourcePlanCommand.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaCommandParser.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaDeleteCommand.cs" />
@@ -130,6 +134,7 @@
     <Compile Include="UserCode\PwaGatewayCommands\PwaGetProjectsForEditCommand.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaGetProjectsStalePublishCommand.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaGetProjectUidsCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaGetProjectPlansCommand.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaGetResourcePlansCommand.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaGetResourcesCommand.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaGetTimsheetsCommand.cs" />
@@ -137,6 +142,7 @@
     <Compile Include="UserCode\PwaGatewayCommands\PwaPublishCommand.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaPublishResourcePlanCommand.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaUpdateProjectsCustomFieldsCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaUpdateProjectPlanCommand.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaUpdateResourcePlanCommand.cs" />
     <Compile Include="UserCode\QueueHelper.cs" />
     <Compile Include="UserCode\Utility\ExceptionUtility.cs" />

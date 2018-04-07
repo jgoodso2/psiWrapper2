@@ -12,5 +12,14 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands.Entity.Pwa
         public string resName { get; set; }
         public bool selected { get; set; }
         public CustomField[] CustomFields { get; set; }
+        public Intervals[] intervals { get; set; }
+
+        public string this[string intervalName]
+        {
+            get
+            {
+                return intervals.First(t => t.intervalName == intervalName).intervalValue;
+            }
+        }
     }
 }
