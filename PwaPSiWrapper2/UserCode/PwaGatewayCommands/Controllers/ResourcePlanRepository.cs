@@ -382,12 +382,11 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
                 ProjectPlan plan = new ProjectPlan();
                 if (ds.PlanResources.Count < 1)
                 {
-                    plan.resources = new[] { new Resource() { resUid = Guid.Empty.ToString(), resName = "" } };
+                    //plan.resources = new[] { new Resource() { resUid = Guid.Empty.ToString(), resName = "" } };
 
-                    plan.project = new Project() { projUid = projectUiid.ToString(), projName = projName, readOnly = true, startDate = startDate.ToShortDateString(), finishDate = finishDate.ToShortDateString() };
+                    plan.project = new Project() { projUid = projectUiid.ToString(), projName = projName, startDate = startDate.ToShortDateString(), finishDate = finishDate.ToShortDateString() };
                     //plan.projects[0].readOnly = true;
                     //plan.projects[0].readOnlyReason = "Unable to retrieve data. Possible reason:Resource Plan requires publishing";
-                    plan.project.stalePublish = true;
                     return plan;
                 }
                 plan.resources = new Resource[ds.PlanResources.Count];

@@ -129,6 +129,7 @@
     <Compile Include="UserCode\PwaGatewayCommands\PwaAddResourcePlanCommand.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaCommandParser.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaDeleteCommand.cs" />
+    <Compile Include="UserCode\PwaGatewayCommands\PwaDeleteProjectPlanCommand.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaDeleteResourcePlanCommand.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaGetCheckedoutProjectsCommand.cs" />
     <Compile Include="UserCode\PwaGatewayCommands\PwaGetProjectsForEditCommand.cs" />
