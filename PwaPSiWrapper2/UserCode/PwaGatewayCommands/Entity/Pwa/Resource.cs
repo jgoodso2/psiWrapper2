@@ -13,6 +13,7 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands.Entity.Pwa
         public bool selected { get; set; }
         public CustomField[] CustomFields { get; set; }
         public Intervals[] intervals { get; set; }
+        public Intervals[] capacity { get; set; }
 
         public string this[string intervalName]
         {

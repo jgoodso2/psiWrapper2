@@ -396,6 +396,7 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
                 plan.resources[i] = new Resource() { resUid = ds.PlanResources[i].RES_UID.ToString(), resName = ds.PlanResources[i].RES_NAME } ;
                 plan.project = new Project() { projUid = projectUiid.ToString(), projName = projName, readOnly = false, startDate = startDate.ToShortDateString(), finishDate = finishDate.ToShortDateString() };
                 plan.resources[i].intervals = new Intervals[ds.Dates.Count];
+                plan.resources[i].capacity = GetResourceCapacity(ds.PlanResources[i].RES_UID, sDate, eDate, timeScale);
                 //if (ds.PlanResources[0]["IsCheckedOut"] != DBNull.Value && ds.PlanResources[0]["IsCheckedOut"].ToString() == "1")
                 //{
                 //    plan.projects[0].readOnly = true;
@@ -633,7 +634,7 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
         {
             ResPlan plan = new ResPlan();
             plan.resource = new Resource() { resUid = Guid.Empty.ToString(), resName = "" };
-
+            
             plan.projects = new Project[1] { new Project() { projUid = projectUiid.ToString(), projName = projectName, readOnly = true, startDate = startDate.ToShortDateString(), finishDate = finishDate.ToShortDateString() } };
             //plan.projects[0].readOnly = true;
             //plan.projects[0].readOnlyReason = "Unable to retrieve data. Possible reason:Resource Plan requires publishing";
@@ -646,6 +647,7 @@ namespace PwaPSIWrapper.UserCode.PwaGatewayCommands
         {
             ResPlan plan = new ResPlan();
             plan.resource = new Resource() { resUid = ds.PlanResources[i].RES_UID.ToString(), resName = ds.PlanResources[i].RES_NAME };
+            plan.resource.capacity = GetResourceCapacity(ds.PlanResources[i].RES_UID, sDate, eDate, timeScale);
 
             plan.projects = new Project[1] { new Project() { projUid = projectUiid.ToString(), projName = projectName, readOnly = false, startDate = startDate.ToShortDateString(), finishDate = finishDate.ToShortDateString() } };
             plan.projects[0].intervals = new Intervals[ds.Dates.Count];
@@ -896,6 +898,38 @@ public Dictionary<string, TimesheetCapacityData> ReadTimesheetData(Guid resUid, 
 
 
 }
+
+public Intervals[] GetResourceCapacity(Guid resUid, DateTime start, DateTime end,string timeScale)
+        {
+            short intTimeScale = 5;
+            switch (timeScale)
+            {
+                case "Weeks":
+                    intTimeScale = 4;
+                    break;
+                case "Calendar Months":
+                    intTimeScale = 5;
+                    break;
+                case "Financial Months":
+                    intTimeScale = 5;
+                    break;
+                case "Years":
+                    intTimeScale = 7;
+                    break;
+            }
+            var capacityData = PJPSIContext.ResourceWebService.ReadResourceAvailability(new Guid[] { resUid }, start, end, intTimeScale, false);
+            var intervals = new List<Intervals>();
+            foreach (DataRow row in capacityData.Tables[0].Rows)
+            {
+                var intervalName = row.Field<string>("IntervalName");
+                var startDate = row.Field<DateTime>("StartDate");
+                var endDate = row.Field<DateTime>("EndDate");
+                var capacity = Convert.ToDecimal(capacityData.Tables[1].Rows[0][intervalName].ToString()) / 600;
+                var interval = new Intervals() { start = startDate.ToShortDateString(), end = endDate.ToShortDateString(), intervalName = intervalName,intervalValue=capacity.ToString() };//capacity }
+                intervals.Add(interval);
+            }
+            return intervals.ToArray();
+        }
 private void AddCheckoutFlags(Guid projectUiid, PJSchema.ResourcePlanDataSet dsCopy)
 {
     var checkedOutInfo = GetCheckedOutInfo(projectUiid);
